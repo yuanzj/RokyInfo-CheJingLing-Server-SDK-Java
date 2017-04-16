@@ -1,0 +1,95 @@
+syntax = "proto3";
+package chejingling;
+
+option java_package = "net.rokyinfo.chejingling.client.model";
+option java_outer_classname = "EbikeListProtos";
+
+
+enum DataSource {
+    GPS_DEVICE = 0;
+    SMART_PHONE = 1;
+}
+
+enum OnlineStatus {
+    ONLINE = 0;
+    OFFLINE = 1;
+}
+
+enum LonLatType {
+    EAST_LONGITUDE_NORTH_LATITUDE = 0;
+    EAST_LONGITUDE_SOUTH_LATITUDE = 1;
+    WEST_LONGITUDE_SOUTH_LATITUDE = 3;
+    WEST_LONGITUDE_NORTH_LATITUDE = 4;
+}
+
+message LBS {
+    LonLatType lonLatType = 1;
+    double lon = 2;
+    double lat = 3;
+    string baseStation = 4;
+    int32 hAccuracy = 5;
+    DataSource source = 6;
+    string reportTime = 7;
+}
+
+message BMS {
+    int32 SOC = 1;
+    int32 SOH = 2;
+    int32 chargeCount = 3;
+    int64 T = 4;
+    int64 status = 5;
+}
+
+message CCU {
+    string SN = 1;
+    string hardware = 2;
+    string software = 3;
+}
+
+message PCU {
+    string UDID = 1;
+    string hardware = 2;
+    string software = 3;
+}
+
+message DCU {
+    string IMEI = 1;
+    string IMSI = 2;
+    string hardware = 3;
+    string software = 4;
+    OnlineStatus online = 5;
+    int32 GSM_RSSI = 6;
+    int32 GPS_RSSI = 7;
+    int32 VBAT = 8;
+}
+
+message ECU {
+    string UDID = 1;
+    string hardware = 2;
+    string software = 3;
+}
+
+message Ebike {
+
+    int32 status = 1;
+    int32 alarm = 2;
+    int64 ODO = 3;
+    int32 speed = 4;
+    bytes fault = 5;
+    int32 voltage = 6;
+    int32 current = 7;
+    int32 turn = 8;
+    DataSource source = 9;
+    string reportTime = 10;
+    LBS lbs = 11;
+    BMS bms = 12;
+    CCU ccu = 13;
+    PCU pcu = 14;
+    DCU dcu = 15;
+    ECU ecu = 16;
+
+}
+
+message EbikeList {
+    repeated Ebike ebike = 1;
+}
