@@ -92,6 +92,7 @@ public class MessageConfig {
     }
 
     public String getUrl() {
+        String parameterURl = "";
         if (parameter != null) {
             StringBuilder stringBuilder = new StringBuilder("?");
             parameter.forEach((k, v) -> {
@@ -100,9 +101,17 @@ public class MessageConfig {
                 stringBuilder.append(v);
                 stringBuilder.append("&");
             });
-            String parameterURl = stringBuilder.substring(0, stringBuilder.length() - 1);
-            return "http://" + host + ":" + port + "/" + path + parameterURl;
+            parameterURl = stringBuilder.substring(0, stringBuilder.length() - 1);
         }
-        return "http://" + host + ":" + port + "/" + path;
+
+        if (host.startsWith("https") || host.startsWith("http")){
+            if (port == 80){
+                return host + "/" + path + parameterURl;
+            } else {
+                return host + ":" + port + "/" + path + parameterURl;
+            }
+        }
+        return "http://" + host + ":" + port + "/" + path + parameterURl;
+
     }
 }

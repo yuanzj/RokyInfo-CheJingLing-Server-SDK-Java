@@ -63,6 +63,12 @@ public class MessageDispatcher extends Thread {
                 RemoteResponse remoteResponse = null;
                 try {
 
+                    long interval =  System.currentTimeMillis() - MessageMonitor.getInstance().getRequestStatistics().getStartTimeMs();
+                    if (interval > 0 && interval < request.getInterval()){
+                        Thread.sleep((request.getInterval() - interval));
+                        logger.info("interval:"+(request.getInterval() - interval));
+                    }
+
                     MessageMonitor.getInstance().startRequest();
                     remoteResponse = client.perform(request);
                     MessageMonitor.getInstance().requestSuccess();
@@ -83,7 +89,7 @@ public class MessageDispatcher extends Thread {
 
                         if (message.getEbikeList() != null) {
                             msgSize = message.getEbikeList().getSerializedSize();
-//                            logger.info(message.getEbikeList().toString());
+                            logger.info(message.getEbikeList().toString());
                             messageDelivery.postMessage(topicTag, message);
                         }
                         MessageMonitor.getInstance().postMessageComplete();
@@ -98,7 +104,7 @@ public class MessageDispatcher extends Thread {
                     MessageMonitor.getInstance().bodySize(msgSize);
 
                 } else if (remoteResponse != null) {
-                    logger.error("post-error", InputStreamUtil.convertStreamToString(remoteResponse.getContent()));
+                    logger.error("post-error code:[" +remoteResponse.getCode() +"] content:"+InputStreamUtil.convertStreamToString(remoteResponse.getContent()));
                 }
 
             });
