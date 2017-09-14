@@ -5,9 +5,10 @@ import net.rokyinfo.chejingling.client.model.EbikeListProtos;
 import net.rokyinfo.chejingling.client.model.Message;
 
 /**
+ * 车辆上报数据获取
  * Created by yuanzhijian on 2017/4/25.
  */
-public class Application {
+public class SyncDataDemo {
 
     public static void main(String... org){
 
